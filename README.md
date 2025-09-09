@@ -1,12 +1,57 @@
-# React + Vite
+AyurSutra – Local Setup Guide
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Follow these steps to set up and run the project locally:
 
-Currently, two official plugins are available:
+1. Create New React App
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Create a new Vite + React project
 
-## Expanding the ESLint configuration
+npm create vite@latest ayurSutra
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# Select options:
+
+# Framework: React
+
+# Variant: JavaScript
+
+cd ayurSutra
+
+2. Install Dependencies
+   🔹 Core Dependencies
+   npm install @clerk/clerk-react react-router-dom axios
+
+🔹 UI Components (shadcn/ui)
+
+# Initialize shadcn
+
+npx shadcn@latest init
+
+# Choose base color → Neutral
+
+# Add all shadcn/ui components
+
+npx shadcn@latest add --all
+
+🔹 Additional UI Libraries
+npm install class-variance-authority clsx cmdk date-fns embla-carousel-react input-otp lucide-react next-themes react-day-picker react-hook-form react-resizable-panels sonner tailwind-merge tailwindcss-animate vaul zod
+
+🔹 Tailwind CSS Setup
+npm install tailwindcss @tailwindcss/vite
+npm install -D @types/node
+
+3. Environment Variables
+
+Create a .env file in the root directory and add your Clerk API key:
+
+VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key_here
+
+4. Run the Project
+
+# Start the local development server
+
+npm run dev
+
+The app will be available at:
+👉 http://localhost:5173/
+
+You’re now ready to start building and running the project!
