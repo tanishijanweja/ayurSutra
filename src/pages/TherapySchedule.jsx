@@ -291,181 +291,186 @@ const TherapySchedule = () => {
 
         {/* Booking Form Modal */}
         {showBookingForm && userRole === "patient" && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <Card className="w-full max-w-2xl bg-white shadow-2xl">
-              <CardHeader>
-                <CardTitle className="text-emerald-800">
-                  Book Therapy Session
-                </CardTitle>
-                <p className="text-gray-600">
-                  Schedule for {selectedDate.toDateString()}
-                </p>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleBookingSubmit} className="space-y-6">
-                  {/* Therapy Type */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Therapy Type *
-                    </label>
-                    <Select
-                      value={formData.therapyType}
-                      onValueChange={(value) =>
-                        handleInputChange("therapyType", value)
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select therapy type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {therapyTypes.map((therapy) => (
-                          <SelectItem key={therapy.name} value={therapy.name}>
-                            <div>
-                              <p className="font-medium">{therapy.name}</p>
-                              <p className="text-xs text-gray-500">
-                                {therapy.duration}
-                              </p>
-                            </div>
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  {/* Time Slot */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Time Slot *
-                    </label>
-                    <div className="grid grid-cols-3 gap-2">
-                      {timeSlots.map((time) => {
-                        const isAvailable = isTimeSlotAvailable(
-                          selectedDate,
-                          time
-                        );
-                        return (
-                          <Button
-                            key={time}
-                            type="button"
-                            variant={
-                              formData.time === time ? "default" : "outline"
-                            }
-                            size="sm"
-                            disabled={!isAvailable}
-                            onClick={() => handleInputChange("time", time)}
-                            className={`${
-                              formData.time === time
-                                ? "bg-emerald-600 text-white"
-                                : isAvailable
-                                ? "hover:bg-emerald-50 hover:border-emerald-300"
-                                : "opacity-50 cursor-not-allowed"
-                            }`}
-                          >
-                            {time}
-                          </Button>
-                        );
-                      })}
+          <div
+            className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+            style={{ overscrollBehavior: "contain" }}
+          >
+            <div className="w-full max-w-2xl max-h-screen overflow-auto rounded-xl">
+              <Card className="bg-white shadow-2xl">
+                <CardHeader>
+                  <CardTitle className="text-emerald-800">
+                    Book Therapy Session
+                  </CardTitle>
+                  <p className="text-gray-600">
+                    Schedule for {selectedDate.toDateString()}
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleBookingSubmit} className="space-y-6">
+                    {/* Therapy Type */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Therapy Type *
+                      </label>
+                      <Select
+                        value={formData.therapyType}
+                        onValueChange={(value) =>
+                          handleInputChange("therapyType", value)
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select therapy type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {therapyTypes.map((therapy) => (
+                            <SelectItem key={therapy.name} value={therapy.name}>
+                              <div>
+                                <p className="font-medium">{therapy.name}</p>
+                                <p className="text-xs text-gray-500">
+                                  {therapy.duration}
+                                </p>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
-                  </div>
 
-                  {/* Practitioner */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Practitioner
-                    </label>
-                    <Select
-                      value={formData.practitioner}
-                      onValueChange={(value) =>
-                        handleInputChange("practitioner", value)
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {practitioners.map((practitioner) => (
-                          <SelectItem key={practitioner} value={practitioner}>
-                            {practitioner}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  {/* Duration */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Duration (minutes)
-                    </label>
-                    <Input
-                      type="number"
-                      value={formData.duration}
-                      onChange={(e) =>
-                        handleInputChange("duration", parseInt(e.target.value))
-                      }
-                      min="30"
-                      max="120"
-                      step="15"
-                    />
-                  </div>
-
-                  {/* Notes */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Special Notes (Optional)
-                    </label>
-                    <Textarea
-                      value={formData.notes}
-                      onChange={(e) =>
-                        handleInputChange("notes", e.target.value)
-                      }
-                      placeholder="Any special requirements or notes for the practitioner..."
-                      rows="3"
-                    />
-                  </div>
-
-                  {/* Info Box */}
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <div className="flex items-start">
-                      <Info className="h-5 w-5 text-blue-600 mr-2 mt-0.5" />
-                      <div className="text-sm text-blue-800">
-                        <p className="font-medium mb-1">Booking Information</p>
-                        <ul className="text-xs space-y-1">
-                          <li>
-                            • Your session request will be sent to the
-                            practitioner for approval
-                          </li>
-                          <li>• You'll receive a notification once approved</li>
-                          <li>
-                            • Please arrive 10 minutes before your scheduled
+                    {/* Time Slot */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Time Slot *
+                      </label>
+                      <div className="grid grid-cols-3 gap-2">
+                        {timeSlots.map((time) => {
+                          const isAvailable = isTimeSlotAvailable(
+                            selectedDate,
                             time
-                          </li>
-                        </ul>
+                          );
+                          return (
+                            <Button
+                              key={time}
+                              type="button"
+                              variant={
+                                formData.time === time ? "default" : "outline"
+                              }
+                              size="sm"
+                              disabled={!isAvailable}
+                              onClick={() => handleInputChange("time", time)}
+                              className={`$${
+                                formData.time === time
+                                  ? "bg-emerald-600 text-white"
+                                  : isAvailable
+                                  ? "hover:bg-emerald-50 hover:border-emerald-300"
+                                  : "opacity-50 cursor-not-allowed"
+                              }`}
+                            >
+                              {time}
+                            </Button>
+                          );
+                        })}
                       </div>
                     </div>
-                  </div>
 
-                  {/* Form Actions */}
-                  <div className="flex gap-4">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => setShowBookingForm(false)}
-                      className="flex-1"
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="flex-1 bg-emerald-600 hover:bg-emerald-700"
-                    >
-                      <CheckCircle className="h-4 w-4 mr-2" />
-                      Request Session
-                    </Button>
-                  </div>
-                </form>
-              </CardContent>
-            </Card>
+                    {/* Practitioner */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Practitioner
+                      </label>
+                      <Select
+                        value={formData.practitioner}
+                        onValueChange={(value) =>
+                          handleInputChange("practitioner", value)
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {practitioners.map((practitioner) => (
+                            <SelectItem key={practitioner} value={practitioner}>
+                              {practitioner}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Duration */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Duration (minutes)
+                      </label>
+                      <Input
+                        type="number"
+                        value={formData.duration}
+                        onChange={(e) =>
+                          handleInputChange("duration", parseInt(e.target.value))
+                        }
+                        min="30"
+                        max="120"
+                        step="15"
+                      />
+                    </div>
+
+                    {/* Notes */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Special Notes (Optional)
+                      </label>
+                      <Textarea
+                        value={formData.notes}
+                        onChange={(e) =>
+                          handleInputChange("notes", e.target.value)
+                        }
+                        placeholder="Any special requirements or notes for the practitioner..."
+                        rows="3"
+                      />
+                    </div>
+
+                    {/* Info Box */}
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                      <div className="flex items-start">
+                        <Info className="h-5 w-5 text-blue-600 mr-2 mt-0.5" />
+                        <div className="text-sm text-blue-800">
+                          <p className="font-medium mb-1">Booking Information</p>
+                          <ul className="text-xs space-y-1">
+                            <li>
+                              • Your session request will be sent to the
+                              practitioner for approval
+                            </li>
+                            <li>• You'll receive a notification once approved</li>
+                            <li>
+                              • Please arrive 10 minutes before your scheduled
+                              time
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Form Actions */}
+                    <div className="flex gap-4">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setShowBookingForm(false)}
+                        className="flex-1"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        type="submit"
+                        className="flex-1 bg-emerald-600 hover:bg-emerald-700"
+                      >
+                        <CheckCircle className="h-4 w-4 mr-2" />
+                        Request Session
+                      </Button>
+                    </div>
+                  </form>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         )}
 
