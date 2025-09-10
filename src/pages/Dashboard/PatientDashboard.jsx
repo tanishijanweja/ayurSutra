@@ -3,6 +3,8 @@ import { useApp } from "../../context/AppContext";
 import TherapyCard from "../../components/TherapyCard";
 import NotificationCard from "../../components/NotificationCard";
 import ProgressChart from "../../components/ProgressChart";
+import { useNavigate } from "react-router-dom";
+
 import {
   Card,
   CardContent,
@@ -42,6 +44,7 @@ const PatientDashboard = () => {
   const sessions = getUserSessions();
   const notifications = getUserNotifications();
   const progressData = getUserProgress();
+  const navigate = useNavigate();
 
   const upcomingSessions = sessions
     .filter((s) => s.status === "upcoming")
@@ -228,11 +231,17 @@ const PatientDashboard = () => {
                     <div className="text-center py-8 text-gray-500">
                       <Clock className="h-12 w-12 mx-auto mb-4 text-gray-300" />
                       <p>No upcoming sessions scheduled</p>
-                      <Button
+                      {/* <Button
                         className="mt-4 bg-emerald-600 hover:bg-emerald-700"
                         onClick={() =>
                           (window.location.href = "/therapy-schedule")
                         }
+                      >
+                        Schedule a Session
+                      </Button> */}
+                      <Button
+                        className="mt-4 bg-emerald-600 hover:bg-emerald-700"
+                        onClick={() => navigate("/therapy-schedule")}
                       >
                         Schedule a Session
                       </Button>
@@ -277,13 +286,21 @@ const PatientDashboard = () => {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <Button
+                  {/* <Button
                     className="bg-emerald-600 hover:bg-emerald-700 h-16"
                     onClick={() => (window.location.href = "/therapy-schedule")}
                   >
                     <Calendar className="h-5 w-5 mr-2" />
                     Schedule Session
+                  </Button> */}
+                  <Button
+                    className="bg-emerald-600 hover:bg-emerald-700 h-16"
+                    onClick={() => navigate("/therapy-schedule")}
+                  >
+                    <Calendar className="h-5 w-5 mr-2" />
+                    Schedule Session
                   </Button>
+
                   <Button
                     variant="outline"
                     className="border-amber-300 text-amber-700 hover:bg-amber-50 h-16"
