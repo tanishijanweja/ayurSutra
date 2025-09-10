@@ -291,8 +291,8 @@ const TherapySchedule = () => {
 
         {/* Booking Form Modal */}
         {showBookingForm && userRole === "patient" && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <Card className="w-full max-w-2xl bg-white shadow-2xl">
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
+            <Card className="w-full max-w-2xl bg-white shadow-2xl my-8">
               <CardHeader>
                 <CardTitle className="text-emerald-800">
                   Book Therapy Session
