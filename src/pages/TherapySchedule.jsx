@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; 
 import { useApp } from "../context/AppContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "../components/ui/button";
@@ -39,6 +39,18 @@ const TherapySchedule = () => {
     notes: "",
     practitioner: "Dr. Anjali Nair",
   });
+
+  useEffect(() => {
+    if (showBookingForm) {
+      document.body.style.overflow = "hidden"; // lock scroll
+    } else {
+      document.body.style.overflow = "auto"; // restore scroll
+    }
+
+    return () => {
+      document.body.style.overflow = "auto"; // cleanup if unmounted
+    };
+  }, [showBookingForm]);
 
   const timeSlots = [
     "09:00 AM",
@@ -293,7 +305,7 @@ const TherapySchedule = () => {
         {showBookingForm && userRole === "patient" && (
           <div
             className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
-            style={{ overscrollBehavior: "contain" }}
+            style={{ overscrollBehavior: "contain", scrollbarWidth: "none", msOverflowStyle: "none"}}
           >
             <div className="w-full max-w-2xl max-h-screen overflow-auto rounded-xl">
               <Card className="bg-white shadow-2xl">
