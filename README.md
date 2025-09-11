@@ -34,7 +34,7 @@ npm install -D @types/node
 3. Environment Variables
 
 ```bash
-Create a .env file in the root directory and add your Clerk API key:
+#Create a .env file in the root directory and add your Clerk API key:
 VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key_here
 ```
 
